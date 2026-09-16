@@ -1,0 +1,25 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql+asyncpg://docpilot:docpilot@postgres:5432/docpilot
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: docpilot
+      POSTGRES_PASSWORD: docpilot
+      POSTGRES_DB: docpilot
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
