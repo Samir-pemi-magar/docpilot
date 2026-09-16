@@ -7,11 +7,11 @@ class Settings(BaseSettings):
     debug: bool = False
 
     database_url: str
+    qdrant_url: str = "http://qdrant:6333"
 
     model_config = SettingsConfigDict(
         env_file=".env",
         extra="ignore",
     )
-
 
 settings = Settings()

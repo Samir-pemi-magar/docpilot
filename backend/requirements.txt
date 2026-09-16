@@ -4,3 +4,4 @@ pydantic-settings
 sqlalchemy
 asyncpg
 alembic
+qdrant-client

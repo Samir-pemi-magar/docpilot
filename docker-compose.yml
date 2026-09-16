@@ -20,6 +20,13 @@ services:
       POSTGRES_DB: docpilot
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    
+  
+  qdrant:
+    image: qdrant/qdrant:latest
+    volumes:
+      - qdrant_data:/qdrant/storage
 
 volumes:
   postgres_data:
+  qdrant_data:
