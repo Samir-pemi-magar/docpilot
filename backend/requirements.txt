@@ -5,3 +5,4 @@ sqlalchemy
 asyncpg
 alembic
 qdrant-client
+boto3

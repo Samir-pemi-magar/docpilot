@@ -26,7 +26,20 @@ services:
     image: qdrant/qdrant:latest
     volumes:
       - qdrant_data:/qdrant/storage
+  
+  minio:
+    image: quay.io/minio/minio
+    environment:
+      MINIO_ROOT_USER: docpilot
+      MINIO_ROOT_PASSWORD: docpilot-minio-password
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
 
 volumes:
   postgres_data:
   qdrant_data:
+  minio_data:
