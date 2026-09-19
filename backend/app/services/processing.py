@@ -3,6 +3,7 @@ import tempfile
 from pathlib import Path
 
 from app.models import Document
+from app.services.cleaning import text_cleaning_service
 from app.services.extraction import extraction_service
 from app.services.storage import storage_service
 
@@ -40,15 +41,20 @@ class DocumentProcessingService:
     ) -> tuple[str, str]:
         extracted_text = await self.extract_document(document)
 
+        cleaned_text = await asyncio.to_thread(
+            text_cleaning_service.clean,
+            extracted_text,
+        )
+
         extracted_storage_key = f"{document.id}/extracted.txt"
 
         await asyncio.to_thread(
             storage_service.upload_text,
-            extracted_text,
+            cleaned_text,
             extracted_storage_key,
         )
 
-        return extracted_text, extracted_storage_key
+        return cleaned_text, extracted_storage_key
 
 
 document_processing_service = DocumentProcessingService()
