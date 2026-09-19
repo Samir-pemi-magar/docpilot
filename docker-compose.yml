@@ -7,10 +7,15 @@ services:
       - "8000:8000"
     environment:
       DATABASE_URL: postgresql+asyncpg://docpilot:docpilot@postgres:5432/docpilot
+      MINIO_ENDPOINT: http://minio:9000
+      MINIO_ACCESS_KEY: docpilot
+      MINIO_SECRET_KEY: docpilot-minio-password
+      MINIO_BUCKET: documents
     volumes:
       - ./backend:/app
     depends_on:
       - postgres
+      - minio
 
   postgres:
     image: postgres:17

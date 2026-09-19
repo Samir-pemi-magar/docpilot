@@ -30,6 +30,12 @@ class Document(Base):
         nullable=False,
     )
 
+    storage_key: Mapped[str] = mapped_column(
+        String(500),
+        nullable=False,
+        unique=True,
+    )
+
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         nullable=False,
