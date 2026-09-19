@@ -25,7 +25,7 @@ class StorageService:
                 self.client.create_bucket(Bucket=self.bucket)
             else:
                 raise
-    
+
     def upload_file(
         self,
         file_object,
@@ -40,7 +40,18 @@ class StorageService:
                 "ContentType": content_type,
             },
         )
-    
+
+    def download_file(
+        self,
+        object_key: str,
+        file_object,
+    ) -> None:
+        self.client.download_fileobj(
+            self.bucket,
+            object_key,
+            file_object,
+        )
+
     def delete_file(self, object_key: str) -> None:
         self.client.delete_object(
             Bucket=self.bucket,
