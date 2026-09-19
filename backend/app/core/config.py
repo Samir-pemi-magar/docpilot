@@ -5,6 +5,7 @@ class Settings(BaseSettings):
     app_name: str = "DocPilot API"
     app_version: str = "0.1.0"
     debug: bool = False
+
     minio_endpoint: str = "http://minio:9000"
     minio_access_key: str
     minio_secret_key: str
@@ -13,9 +14,15 @@ class Settings(BaseSettings):
     database_url: str
     qdrant_url: str = "http://qdrant:6333"
 
+    embedding_url: str = "http://embedding"
+    embedding_model: str = "Qwen/Qwen3-Embedding-0.6B"
+    embedding_dimension: int = 1024
+    embedding_timeout: float = 30.0
+
     model_config = SettingsConfigDict(
         env_file=".env",
         extra="ignore",
     )
+
 
 settings = Settings()

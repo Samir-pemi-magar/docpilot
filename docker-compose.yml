@@ -25,13 +25,13 @@ services:
       POSTGRES_DB: docpilot
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    
-  
+
+
   qdrant:
     image: qdrant/qdrant:latest
     volumes:
       - qdrant_data:/qdrant/storage
-  
+
   minio:
     image: quay.io/minio/minio
     environment:
@@ -44,7 +44,28 @@ services:
     volumes:
       - minio_data:/data
 
+  embedding:
+    image: ghcr.io/huggingface/text-embeddings-inference:89-1.9
+    command:
+      - --model-id
+      - Qwen/Qwen3-Embedding-0.6B
+      - --dtype
+      - float16
+    ports:
+      - "8081:80"
+    volumes:
+      - embedding_data:/data
+    shm_size: "1gb"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
 volumes:
   postgres_data:
   qdrant_data:
   minio_data:
+  embedding_data:
