@@ -1,3 +1,5 @@
+import io
+
 import boto3
 from botocore.exceptions import ClientError
 
@@ -50,6 +52,20 @@ class StorageService:
             self.bucket,
             object_key,
             file_object,
+        )
+
+    def upload_text(
+        self,
+        text: str,
+        object_key: str,
+    ) -> None:
+        self.client.upload_fileobj(
+            io.BytesIO(text.encode("utf-8")),
+            self.bucket,
+            object_key,
+            ExtraArgs={
+                "ContentType": "text/plain; charset=utf-8",
+            },
         )
 
     def delete_file(self, object_key: str) -> None:

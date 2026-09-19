@@ -34,5 +34,21 @@ class DocumentProcessingService:
             if temporary_path is not None:
                 temporary_path.unlink(missing_ok=True)
 
+    async def process_document(
+        self,
+        document: Document,
+    ) -> tuple[str, str]:
+        extracted_text = await self.extract_document(document)
+
+        extracted_storage_key = f"{document.id}/extracted.txt"
+
+        await asyncio.to_thread(
+            storage_service.upload_text,
+            extracted_text,
+            extracted_storage_key,
+        )
+
+        return extracted_text, extracted_storage_key
+
 
 document_processing_service = DocumentProcessingService()
